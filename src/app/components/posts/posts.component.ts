@@ -32,4 +32,30 @@ export class PostsComponent implements OnInit {
     this.isEdit = true;
     this.currentPost = post;
   }
+
+  updatethePost(post:Post){
+    this.posts.forEach((cur, index)=>{
+      if(post.id === cur.id){
+        this.posts.splice(index,1);
+        this.posts.unshift(post);
+        this.isEdit = false;
+        this.currentPost = {
+          id: 0,
+          title: '',
+          body: ''
+        }
+      }
+    });
+  }
+  onDeletePost(post){
+    if(confirm('Are you sure?')){
+      this.postService.deletePost(post.id).subscribe(()=>{
+        this.posts.forEach((cur,index)=>{
+          if(post.id === cur.id){
+            this.posts.splice(index,1);
+          }
+        })
+      })
+    }
+  }
 }
