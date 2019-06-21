@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
 
@@ -19,39 +19,39 @@ export class UsersComponent implements OnInit {
     lastName: '',
     email: ''
   }
+  @ViewChild('userForm') form: any;
+  
   data:any;
   constructor(private dataSerive : DataService) { }
 
   ngOnInit() {
-    this.dataSerive.getData().subscribe(data=>{
+    this.dataSerive.getData().subscribe(data => {
       console.log(data);
-    })
-    this.dataSerive.getUsers().subscribe(users =>{
-     this.users = users;
-     this.loaded = true;
-   })
+    });
+ 
+    this.dataSerive.getUsers().subscribe(users => {
+      this.users = users;
+      this.loaded = true;
+    });
 
-  }
+}
 
-  addUser() {
-    this.user.isActive = true;
-    this.user.registered = new Date();
-    this.users.unshift(this.user);
+onSubmit({value, valid}: {value: User, valid: boolean}) {
+  if(!valid){
+    console.log('Form is not valid');
+  } else {
+    value.isActive = true;
+    value.registered = new Date();
+    value.hide = true;
+
+    this.dataSerive.addUser(value);
+
     this.user = {
       firstName: '',
       lastName: '',
       email: ''
     }
   }
-  toggleHide(user: User) {
-    user.hide = !user.hide;
-  }
-  onSubmit(e) {
-    //console.log(13);
-    e.preventDefault();
-  }
-  fireEvent(e) {
-    console.log(e.target.value);
-  }
+}
 
 }

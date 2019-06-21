@@ -61,4 +61,10 @@ export class DataService {
     });
     return this.data;
   }
+
+  
+    addUser(user: User) {
+      this.users.unshift(user);
+    }
+  
 }

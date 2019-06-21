@@ -13,8 +13,11 @@ export class UserComponent implements OnInit {
     constructor() {
     }
     ngOnInit() {
-
-        this.user
+        this.user = {
+            firstName: 'John',
+            lastName: 'Doe',
+            email: 'john@gmail.com'
+          }
     }
 }
 
